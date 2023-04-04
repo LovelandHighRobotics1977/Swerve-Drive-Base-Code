@@ -18,12 +18,15 @@
  */
 class Drivetrain {
  public:
-  Drivetrain() {ahrs->Reset();}
+    Drivetrain(AHRS& navx){
+        ahrs = &navx;
+        ahrs->Reset();
+    }
 
-  void Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rot, bool fieldRelative);
-  void UpdateOdometry();
+    void Drive(units::meters_per_second_t xSpeed, units::meters_per_second_t ySpeed, units::radians_per_second_t rot, bool fieldRelative);
+    void UpdateOdometry();
 
-  static constexpr units::meters_per_second_t kMaxSpeed = 1.0_mps;  // 1 meter per second
+    static constexpr units::meters_per_second_t kMaxSpeed = 1.0_mps;  // 1 meter per second
 
  private:
     //set module positions
@@ -32,10 +35,10 @@ class Drivetrain {
     frc::Translation2d m_backLeftLocation{-0.381_m, +0.381_m};
     frc::Translation2d m_backRightLocation{-0.381_m, -0.381_m};
 
-    SwerveModule m_frontLeft{1, 2, 3};
-    SwerveModule m_frontRight{1, 2, 3};
-    SwerveModule m_backLeft{1, 2, 3};
-    SwerveModule m_backRight{1, 2, 3};
+    SwerveModule m_frontLeft{1, 2, 3, *ahrs};
+    SwerveModule m_frontRight{1, 2, 3, *ahrs};
+    SwerveModule m_backLeft{1, 2, 3, *ahrs};
+    SwerveModule m_backRight{1, 2, 3, *ahrs};
 
     AHRS *ahrs;
 

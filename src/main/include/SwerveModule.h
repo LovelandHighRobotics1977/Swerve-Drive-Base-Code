@@ -19,7 +19,7 @@
 
 class SwerveModule {
  public:
-    SwerveModule(int driveMotorID, int turningMotorID, int turningEncoderID);
+    SwerveModule(int driveMotorID, int turningMotorID, int turningEncoderID, AHRS& navx);
     frc::SwerveModulePosition GetPosition(double distanceDrive) const;
     void SetDesiredState(const frc::SwerveModuleState& state);
     double getDrivePOS();
@@ -27,7 +27,6 @@ class SwerveModule {
  private:
     WPI_TalonFX m_driveMotor;
     WPI_TalonFX m_turningMotor;
-
     WPI_CANCoder m_turningEncoder;
     AHRS *ahrs;
 };

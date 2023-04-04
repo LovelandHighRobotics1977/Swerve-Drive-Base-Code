@@ -29,5 +29,6 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
 private:
-  Drivetrain m_swerve;
+  AHRS ahrs{frc::SerialPort::Port::kUSB1};
+  Drivetrain m_swerve{ahrs};
 };
