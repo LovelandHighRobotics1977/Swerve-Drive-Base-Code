@@ -10,17 +10,17 @@
 
 
 SwerveModule::SwerveModule(const int driveMotorID, const int turningMotorID,const int turningEncoderID, AHRS& navx): m_driveMotor(driveMotorID), m_turningMotor(turningMotorID), m_turningEncoder(turningEncoderID) {
-  ahrs = &navx;
-  ahrs->Reset();
+  	ahrs = &navx;
+  	ahrs->Reset();
   
-  m_driveMotor.SetNeutralMode(NeutralMode::Brake);
+  	m_driveMotor.SetNeutralMode(NeutralMode::Brake);
 
 	m_driveMotor.ConfigFactoryDefault();
 	m_driveMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 0);
-  m_driveMotor.Config_kP(0, 0.01);
-  m_driveMotor.Config_kI(0, 0);
-  m_driveMotor.Config_kD(0, 0.8);
-  m_driveMotor.Config_kF(0, 1);
+  	m_driveMotor.Config_kP(0, 0.01);
+  	m_driveMotor.Config_kI(0, 0);
+  	m_driveMotor.Config_kD(0, 0.8);
+  	m_driveMotor.Config_kF(0, 1);
 	m_driveMotor.ConfigNominalOutputForward(0);
 	m_driveMotor.ConfigNominalOutputReverse(0);
 	m_driveMotor.ConfigPeakOutputForward(1);
@@ -68,12 +68,12 @@ double SwerveModule::getDrivePOS(){
 }
 
 void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState) {
-  // Optimize the reference state to avoid spinning further than 90 degrees
-  const auto state = frc::SwerveModuleState::Optimize(referenceState, {ahrs->GetRotation2d()});
+  	// Optimize the reference state to avoid spinning further than 90 degrees
+  	const auto state = frc::SwerveModuleState::Optimize(referenceState, {ahrs->GetRotation2d()});
 
-  double angle = (((double) state.angle.Degrees())*(4096.0/ 360.0));
+  	double angle = (((double) state.angle.Degrees())*(4096.0/ 360.0));
 
-  // Set the motor outputs.
-  m_driveMotor.Set((double) state.speed);
-  m_turningMotor.Set(TalonFXControlMode::Position, angle);
+  	// Set the motor outputs.
+  	m_driveMotor.Set((double) state.speed);
+  	m_turningMotor.Set(TalonFXControlMode::Position, angle);
 }
